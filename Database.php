@@ -1,34 +1,41 @@
 <?php
 
-class Database{
+class Database
+{
 
     private SQLite3 $db;
 
-    public function __construct(string $dbPath){
+    public function __construct(string $dbPath)
+    {
         $this->db = new SQLite3($dbPath);
     }
 
-    public function initialize(){
-        // Create table users if not exists with id, firstname, lastname, age and foreign key city_id
-        $this->db->exec("CREATE TABLE IF NOT EXISTS users (
+    public function initialize()
+    {
+        // Create table user if not exists with id, firstname, lastname, age and foreign key city_id
+        $this->db->exec("CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             firstname TEXT NOT NULL,
             lastname TEXT NOT NULL,
             age INTEGER NOT NULL,
             address TEXT NOT NULL,    
-            cities_name INTEGER NOT NULL,
-            FOREIGN KEY (cities_name) REFERENCES cities(name)
+            city_nom INTEGER NOT NULL,
+            FOREIGN KEY (city_nom) REFERENCES city(nom)
         )");
 
-          // creer une deuxieme table cities avec id, name
-        $this->db->exec("CREATE TABLE IF NOT EXISTS cities (
-            name TEXT PRIMARY KEY,
+        // creer une deuxieme table city avec id, name
+        $this->db->exec("CREATE TABLE IF NOT EXISTS city (
+            nom TEXT PRIMARY KEY
         )");
 
         // Insert example data plus de 10 villes
-        $this->db->exec("INSERT INTO cities (name) VALUES ('Paris','Marseille','Lyon','Nice','Toulouse','Nantes','Strasbourg','Montpellier','Bordeaux','Lille','Rennes','Reims','Le Havre','Saint-Étienne','Toulon','Grenoble','Dijon','Angers','Villeurbanne','Nîmes','Aix-en-Provence','Brest')");
+        $this->db->exec("INSERT INTO city (nom) VALUES ('Paris')");
+        $this->db->exec("INSERT INTO city (nom) VALUES ('Lyon')");
+        $this->db->exec("INSERT INTO city (nom) VALUES ('Nice')");
+        $this->db->exec("INSERT INTO city (nom) VALUES ('Marseille')");
 
-        $this->db->exec("INSERT INTO `users` (`id`, `lastname`, `firstname`, `age`, `address`, `city`) VALUES
+
+        $this->db->exec("INSERT INTO `user` (`id`, `lastname`, `firstname`, `age`, `address`, `city_nom`) VALUES
         (1, 'elKassim', 'Ababssi', 14, 'rue de la paix', 'Paris'),
         (2, 'nacera', 'Ababssi', 36, 'rue de la guer', 'Lyon'),
         (3, 'Nathan', 'Ababssi', 39, 'rue de la joie', 'Nice'),
@@ -39,5 +46,4 @@ class Database{
         (8, 'Aubrey', 'Valjean', 81, 'rue de la zaza', 'Marseille');
         ");
     }
-
 }
