@@ -1,15 +1,9 @@
 #!/usr/bin/env php
 <?php
-
 require_once "Database.php";
-//use Database;
 
-// Algorithmie
-// Etant donné un tableau de n éléments composés de trois champs :
-// lastname, firstname, age.
-// Proposez un algorithme pour classer les éléments en fonction d’un des trois critères par ordre décroissant ou croissant.
-// Exemple :
 
+//tableau test 1
 $tabs = array(
   ["lastname" => "elKassim", "firstname" => "Ababssi", "age" => 14],
   ["lastname" => "nacera", "firstname" => "Ababssi", "age" => 36],
@@ -19,6 +13,7 @@ $tabs = array(
   ["lastname" => "jean", "firstname" => "valjean", "age" => 99]
 );
 
+//tableau test 2
 $tabs2 = array(
   ["lastname" => "Sophie", "firstname" => "Ababssi", "age" => 14, "address" => "rue de la paix", "city" => "Paris"],
   ["lastname" => "nacera", "firstname" => "Ababssi", "age" => 36, "address" => "rue de la guer", "city" => "Lyon"],
@@ -30,6 +25,9 @@ $tabs2 = array(
   ["lastname" => "Aubrey", "firstname" => "Valjean", "age" => 81, "address" => "rue de la zaza", "city" => "Marseille"]
 );
 
+// fonction de tri générique dans laquelle on choisit le critère de tri et de sens.
+// $key doit correspondre à une des clés des sous-tableaux.
+// $sens doit être "asc" ou autre chose pour un tri décroissant.
 function sortArrayByKey(array $tabs, $key, $ordre = "ASC")
 {
   $tabKey = [];
@@ -50,13 +48,11 @@ function sortArrayByKey(array $tabs, $key, $ordre = "ASC")
   return $tabsSorted;
 }
 
-print_r(sortArrayByKey($tabs, "age", "DESC"));
-
-// On ajoute les champs “address” et “city” aux éléments du tableau. 
-// Proposez un algorithme permettant d’obtenir un tableau indexé 
-// sur les noms de villes contenant les n éléments classés par ville.
-
-function restructureArrayByCity(array $tabs, $key)
+// Fonction de restructuration générique du tableau
+// $key doit correspondre à une des clés des sous-tableaux
+// les valeurs de la clé $key deviennent les clés du tableau
+// chaque valeur de la $key est unique et liste tous les lignes du sous-tableau
+function restructureArrayByKey(array $tabs, $key)
 {
   $tabCity = [];
   sortArrayByKey($tabs, $key);
@@ -68,11 +64,12 @@ function restructureArrayByCity(array $tabs, $key)
   return $tabCity;
 }
 
-print_r(restructureArrayByCity($tabs2, 'city'));
+// Exemple d'utilisation avec le tableau test 1 et le critère de tri "age" et le sens du tri "asc"
+print_r(sortArrayByKey($tabs, "age", "DESC"));
 
-// On souhaite créer la base de données qui va accueillir les éléments stockés dans le tableau précédent.
-// 1. Proposez une suite de requêtes SQL pour initialiser la base et remplir les éléments.
-// 2. Ajouter une table “city” qui soit en relation avec la table précédente.
+// Exemple d'utilisation avec le tableau test 2 et le critère de tri "city" et le sens du tri "asc"
+print_r(restructureArrayByKey($tabs2, 'city'));
 
+// Initialisation de la base de données et insertion des données exemple.
 $db = new Database("data.sqlite");
 $db->initialize();

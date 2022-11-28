@@ -2,6 +2,9 @@
 
 class Database
 {
+    // On souhaite créer la base de données qui va accueillir les éléments stockés dans le tableau précédent.
+    // 1. Proposez une suite de requêtes SQL pour initialiser la base et remplir les éléments.
+    // 2. Ajouter une table “city” qui soit en relation avec la table précédente.
 
     private SQLite3 $db;
 
@@ -33,7 +36,6 @@ class Database
         $this->db->exec("INSERT INTO city (nom) VALUES ('Lyon')");
         $this->db->exec("INSERT INTO city (nom) VALUES ('Nice')");
         $this->db->exec("INSERT INTO city (nom) VALUES ('Marseille')");
-
 
         $this->db->exec("INSERT INTO `user` (`id`, `lastname`, `firstname`, `age`, `address`, `city_nom`) VALUES
         (1, 'elKassim', 'Ababssi', 14, 'rue de la paix', 'Paris'),
